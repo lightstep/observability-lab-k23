@@ -1,24 +1,3 @@
-
-variable "LIGHTSTEP_ACCESS_TOKEN" {
-  default     = ""
-  description = "Lightstep Access Token"
-}
-
-variable "LIGHTSTEP_ORG" {
-  default     = ""
-  description = "Lightstep organization (case sensitive)"
-}
-
-variable "LIGHTSTEP_API_KEY" {
-  default     = ""
-  description = "Lightstep API key"
-}
-
-variable "ls_project" {
-  default     = ""
-  description = "project name"
-}
-
 variable "DIGITALOCEAN_TOKEN" {
   default     = ""
   description = "digitalocean pat"
