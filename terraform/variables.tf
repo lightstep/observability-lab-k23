@@ -1,41 +1,41 @@
 
 variable "LIGHTSTEP_ACCESS_TOKEN" {
-  default = ""
+  default     = ""
   description = "Lightstep Access Token"
 }
 
 variable "LIGHTSTEP_ORG" {
-  default = ""
+  default     = ""
   description = "Lightstep organization (case sensitive)"
 }
 
 variable "LIGHTSTEP_API_KEY" {
-  default = ""
+  default     = ""
   description = "Lightstep API key"
 }
 
 variable "ls_project" {
-  default = ""
+  default     = ""
   description = "project name"
 }
 
 variable "DIGITALOCEAN_TOKEN" {
-  default = ""
+  default     = ""
   description = "digitalocean pat"
 }
 
 variable "do_region" {
-    default = "nyc3"
-    description = "digitalocean region"
+  default     = "nyc3"
+  description = "digitalocean region"
 }
 
 variable "k8s_node_count" {
-    default = 3
-    description = "number of k8s nodes"
+  default     = 3
+  description = "number of k8s nodes"
 }
 
 variable "cluster_name" {
-  default = "k23"
+  default     = "k23"
   description = "k8s cluster name"
 }
 
