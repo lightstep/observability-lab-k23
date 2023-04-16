@@ -103,6 +103,7 @@ Collector, Operator, k8s pods, cillium
 
 Deploy Demo
 
+- helm install otel-demo -f k8s/demo-values.yaml open-telemetry/opentelemetry-demo
 
 
 

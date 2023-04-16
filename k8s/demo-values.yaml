@@ -1,0 +1,61 @@
+opentelemetry-collector:
+  nameOverride: otelcol
+  mode: deployment
+  extraEnvs:
+    - name: LS_TOKEN
+      valueFrom:
+        secretKeyRef:
+          key: LS_TOKEN
+          name: otel-collector-secret
+  resources:
+    limits:
+      memory: 100Mi
+  config:
+    exporters:
+      otlp/ls:
+        endpoint: ingest.lightstep.com:443
+        timeout: 30s
+        headers:
+          lightstep-access-token: ${LS_TOKEN}
+      logging:
+        loglevel: error
+      elasticsearch: 
+        endpoints: [https://logingest.lightstep.com:443]
+        index: "lightstep"
+        headers:
+          lightstep-access-token: ${LS_TOKEN}
+
+    processors:
+      transform:
+        metric_statements:
+          - context: metric
+            statements:
+              - set(description, "Measures the duration of inbound HTTP requests") where name == "http.server.duration"
+      filter:
+        metrics:
+          exclude:
+            match_type: strict
+            metric_names:
+              - queueSize
+      resource:
+        attributes:
+        - key: service
+          from_attribute: service.name
+          action: insert
+      resource/add_container:
+        attributes:
+        - key: container
+          from_attribute: service.name
+          action: insert
+    connectors:
+      spanmetrics:
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [resource, resource/add_container, batch]
+          exporters: [otlp/ls, logging, spanmetrics]
+        metrics:
+          receivers: [otlp, spanmetrics]
+          processors: [resource, filter, transform, batch]
+          exporters: [otlp/ls, logging]
