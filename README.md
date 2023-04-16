@@ -7,8 +7,13 @@ presented at Knowledge 2023.
 
 - A [Lightstep Observability](https://go.lightstep.com/developersignup.html)
   account.
+- A DigitalOcean Access Token. You can create one in the
+  [API & Security](https://cloud.digitalocean.com/account/api) section of your
+  DigitalOcean account.
 
 ## Instructions
+
+### Setting up your cluster
 
 1. Fork this repository to your GitHub account.
 2. In your fork, create a new CodeSpace.
@@ -36,12 +41,12 @@ presented at Knowledge 2023.
     - Finally, in the `.env` file, add the following line:
     `LIGHTSTEP_ORG=<value>`, replacing `<value>` with the 'Organization Name' in
     your Account Management page. **This value is case-sensitive!**.
-5. Create
+5. Add the `DIGITALOCEAN_TOKEN` key and value to `.env`.
+6. Create `terraform/values.auto.tfvars` and copy env vars to it. Be sure to
+   surround the values in quotation marks.
+7. Run `make init`, `make plan`, and `make apply` to create the cluster.
 
 ---
-
-- Create `terraform/values.auto.tfvars` and copy env vars to it (key = "value")
-- Run terraform init, terraform plan, terraform apply (yes)
 
 Cluster Config
 
