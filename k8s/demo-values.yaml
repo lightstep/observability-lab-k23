@@ -3,34 +3,16 @@ components:
     service:
       type: LoadBalancer
 
-jaeger:
-  enabled: false
-
-prometheus:
-  enabled: false
-
-grafana:
-  enabled: false
-
 opentelemetry-collector:
   nameOverride: otelcol
   mode: deployment
-  extraEnvs:
-    - name: LS_TOKEN
-      valueFrom:
-        secretKeyRef:
-          key: LS_TOKEN
-          name: otel-collector-secret
   resources:
     limits:
       memory: 100Mi
   config:
     exporters:
       otlp/ls:
-        endpoint: ingest.lightstep.com:443
-        timeout: 30s
-        headers:
-          lightstep-access-token: ${LS_TOKEN}
+        endpoint: kube-otel-stack-traces-collector:4317
       logging:
         loglevel: error
       elasticsearch: 
@@ -61,15 +43,14 @@ opentelemetry-collector:
         - key: container
           from_attribute: service.name
           action: insert
-    connectors:
-      spanmetrics:
+
     service:
       pipelines:
         traces:
-          receivers: [otlp]
+          receivers: [otlp, otlp/ls]
           processors: [resource, resource/add_container, batch]
-          exporters: [otlp/ls, logging, spanmetrics]
+          exporters: [otlp, logging, spanmetrics]
         metrics:
           receivers: [otlp, spanmetrics]
           processors: [resource, filter, transform, batch]
-          exporters: [otlp/ls, logging]
+          exporters: [otlp/metrics, logging]

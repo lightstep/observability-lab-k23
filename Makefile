@@ -14,3 +14,7 @@ destroy:
 .PHONY: init
 init:
 	terraform -chdir=./terraform init
+
+.PHONY: output
+output:
+	terraform -chdir=./terraform output
