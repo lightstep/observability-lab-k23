@@ -2,55 +2,33 @@ components:
   frontendProxy:
     service:
       type: LoadBalancer
+  frontend:
+    resources:
+      limits:
+        memory: 300Mi
 
 opentelemetry-collector:
-  nameOverride: otelcol
-  mode: deployment
-  resources:
-    limits:
-      memory: 100Mi
   config:
     exporters:
-      otlp/ls:
+      otlp/traces:
         endpoint: kube-otel-stack-traces-collector:4317
-      logging:
-        loglevel: error
-      elasticsearch: 
-        endpoints: [https://logingest.lightstep.com:443]
-        index: "lightstep"
-        headers:
-          lightstep-access-token: ${LS_TOKEN}
-
-    processors:
-      transform:
-        metric_statements:
-          - context: metric
-            statements:
-              - set(description, "Measures the duration of inbound HTTP requests") where name == "http.server.duration"
-      filter:
-        metrics:
-          exclude:
-            match_type: strict
-            metric_names:
-              - queueSize
-      resource:
-        attributes:
-        - key: service
-          from_attribute: service.name
-          action: insert
-      resource/add_container:
-        attributes:
-        - key: container
-          from_attribute: service.name
-          action: insert
-
+        tls:
+          insecure: true
+      otlp/metrics:
+        endpoint: kube-otel-stack-metrics-collector:4317
+        tls:
+          insecure: true
     service:
       pipelines:
-        traces:
-          receivers: [otlp, otlp/ls]
-          processors: [resource, resource/add_container, batch]
-          exporters: [otlp, logging, spanmetrics]
         metrics:
           receivers: [otlp, spanmetrics]
-          processors: [resource, filter, transform, batch]
-          exporters: [otlp/metrics, logging]
+          processors: [batch]
+          exporters: [logging, prometheus, otlp/metrics]
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, otlp/traces, spanmetrics]
+        logs:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging]
