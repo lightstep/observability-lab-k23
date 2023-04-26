@@ -7,6 +7,15 @@ components:
       limits:
         memory: 300Mi
 
+jaeger:
+  enabled: false
+
+prometheus:
+  enabled: false
+
+grafana:
+  enabled: false
+
 opentelemetry-collector:
   config:
     exporters:

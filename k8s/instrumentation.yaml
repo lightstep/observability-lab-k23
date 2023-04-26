@@ -1,0 +1,11 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: java-instrumentation
+spec: 
+  exporter:
+    endpoint: http://otel-demo-otelcol:4317
+  propagators:
+    - tracecontext
+    - baggage
+  

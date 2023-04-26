@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-metrics-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: business-metrics-service
+  template:
+    metadata:
+      labels:
+        app: business-metrics-service
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: "true"
+    spec:
+      containers:
+      - name: business-metrics-service
+        image: ghcr.io/austinlparker/business-metrics-service:757d56e4c9480a41b1c34151271b9415c5e85266
+        ports:
+        - containerPort: 8080
+        env:
+        - name: KAFKA_SERVICE_ADDR
+          value: "otel-demo-kafka:9092"
