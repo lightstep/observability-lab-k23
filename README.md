@@ -10,28 +10,27 @@ presented at Knowledge 2023.
 - A DigitalOcean Access Token. You can create one in the
   [API & Security](https://cloud.digitalocean.com/account/api) section of your
   DigitalOcean account.
+- A GitHub account.
+
+> __Your instructor will provide you with a Lightstep Account and DigitalOcean
+> token for this lab.__
 
 ## Instructions
 
 ### Setting up your cluster
 
 1. Fork this repository to your GitHub account.
-2. In your fork, create a new CodeSpace.
+2. In your fork, create a new Codespace.
     - Click the 'Code' button in the top right of the repository.
-    - Click the 'CodeSpaces' tab.
-    - Click 'Create CodeSpace on main'.
+    - Click the 'Codespaces' tab.
+    - Click 'Create Codespace on main'.
 3. Create a new terminal (Cmd+Shift+P, create new terminal)
-4. Register for a Lightstep Observability account *or* log in to your existing
-   account.
-    - In the Lightstep Observability UI, click the 'Project Settings' (Gear) icon
-     on the left navigation bar.
-    - Click 'Access Tokens' in the left sidebar.
-    - Click the copy icon under 'Token' to copy your access token.
-    - In your codespace, run `export LIGHTSTEP_ACCESS_TOKEN=<token>` where
-      `<token>` is the token in your clipboard.
-5. Find the `DIGITALOCEAN_TOKEN` at the provided URL.
+4. Run `export LIGHTSTEP_API_KEY=<key>`. Your instructor will provide a URL with
+   this key.
+5. Find the `DIGITALOCEAN_TOKEN` at the instructor provided URL.
 6. Create `terraform/values.auto.tfvars` and add `DIGITALOCEAN_TOKEN` to it.
-7. Run `make init`, `make plan`, and `make apply` to create the cluster. You
+7. Run `./provision_ls.sh` and follow the instructions.
+8. Run `make init`, `make plan`, and `make apply` to create the cluster. You
    should see something like this after it completes successfully:
 ```
 digitalocean_kubernetes_cluster.cluster: Creation complete after 4m12s [id=a15869de-4795-45cd-b859-2e8d37744099]
