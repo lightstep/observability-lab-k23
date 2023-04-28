@@ -15,23 +15,8 @@
 			"helm": "latest",
 			"minikube": "none"
 		},
-		"./local-features/copy-kube-config": {},
-		"ghcr.io/devcontainers/features/terraform:1": {},
-		"ghcr.io/dhoeric/features/k9s:1": {}
-	},
-
-	"remoteEnv": {
-		"SYNC_LOCALHOST_KUBECONFIG": "true"
-	},
-
-	"initializeCommand": "cd .devcontainer && bash ensure-mount-sources",
-	"mounts": [
-		{
-			"source": "${env:HOME}${env:USERPROFILE}/.kube",
-			"target": "/usr/local/share/kube-localhost",
-			"type": "bind"
-		}
-	]
+		"ghcr.io/devcontainers/features/terraform:1": {}
+	}
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
