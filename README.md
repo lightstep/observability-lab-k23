@@ -1,7 +1,7 @@
 # Hands-On Observability with OpenTelemetry
 
-This is the repository for the Hands-On Observability with OpenTelemetry Lab,
-presented at Knowledge 2023.
+👋 Welcome to the lab! We're going to get hands-on with setting up a Kubernetes
+cluster for observability with OpenTelemetry!
 
 ## Prerequisites
 
@@ -15,9 +15,16 @@ presented at Knowledge 2023.
 > __Your instructor will provide you with a Lightstep Account and DigitalOcean
 > token for this lab.__
 
-## Instructions
+## Lab Setup
 
-### Setting up your cluster
+This lab is designed to teach you the fundamentals of collecting metrics, logs,
+and traces from a Kubernetes environment along with how to instrument
+applications using OpenTelemetry automatic instrumentation on Kubernetes.
+
+### Set up your Codespace
+
+This lab is designed to be run entirely in your web browser. You'll use GitHub
+Codespaces to access an IDE and terminal that will be required to complete the lab.
 
 1. Fork this repository to your GitHub account.
 2. In your fork, create a new Codespace.
@@ -25,12 +32,28 @@ presented at Knowledge 2023.
     - Click the 'Codespaces' tab.
     - Click 'Create Codespace on main'.
 3. Create a new terminal (Cmd+Shift+P, create new terminal)
-4. Run `export LIGHTSTEP_API_KEY=<key>`. Your instructor will provide a URL with
-   this key.
-5. Find the `DIGITALOCEAN_TOKEN` at the instructor provided URL.
-6. Create `terraform/values.auto.tfvars` and add `DIGITALOCEAN_TOKEN` to it.
-7. Run `./provision_ls.sh` and follow the instructions.
-8. Run `make init`, `make plan`, and `make apply` to create the cluster. You
+
+### Provisoning a Lightstep Account
+
+This lab contains automation to provision a Lightstep user account and project
+in a pre-existing organization. To set up your environment, you will need
+several API keys that will be provided to you during the lab - your instructor
+will give you a URL where they can be found.
+
+1. Go to the provided URL and copy the contents of the GitHub gist.
+2. Copy and paste this content into your Codespace terminal.
+3. In the terminal, run `./scripts/create_user.sh` and follow the on-screen
+   instructions.
+4. Next run `./scripts/provision_ls.sh` and follow the on-screen instructions.
+
+### Setting up your cluster
+
+Let's start by setting up a fresh Kubernetes cluster. This lab uses
+DigitalOcean's managed Kubernetes service, but the same concepts apply to any
+K8S cluster -- on AWS, GCP, or Azure there's some extra work to be done around
+identity management and storage that's out of scope for this lab.
+
+1. Run `make init`, `make plan`, and `make apply` to create the cluster. You
    should see something like this after it completes successfully:
 ```
 digitalocean_kubernetes_cluster.cluster: Creation complete after 4m12s [id=a15869de-4795-45cd-b859-2e8d37744099]
@@ -43,10 +66,14 @@ Outputs:
 
 k8s_cluster_name = "k23-premium-mammal"
 ```
-8. Run `export K8S_CLUSTER_NAME=<value>`, where `<value>` is the value of the
+2. Run `export K8S_CLUSTER_NAME=<value>`, where `<value>` is the value of the
    `k8s_cluster_name` output variable in step 7.
 
 ### Installing Prerequisites
+
+You now have a running, 3-node Kubernetes cluster. You can run `kubectl get
+nodes` to validate that the cluster is operational. Now, you need to install
+several pre-requisites.
 
 1. In the terminal, run the following command to add necessary Helm
    repositories:
@@ -75,6 +102,16 @@ opentelemetry-operator  default         1               2023-04-26 16:30:59.4789
 
 ### Set up `kube-otel-stack`
 
+Next, you need to install and configure Kubernetes monitoring via the
+OpenTelemetry Operator. You can use the `kube-otel-stack` Helm chart to install
+monitoring with sensible defaults, including -
+
+- Installation of kube-state-metrics to generate metrics about the state of
+  Kubernetes objects.
+- Configuration of target allocators to allow for automatic scraping of
+  component metrics endpoints.
+- Deployment of OpenTelemetry collectors for metrics and tracing collection.
+
 1. Create a secret for your Lightstep Access Token:
 ```
 kubectl create secret generic otel-collector-secret -n default --from-literal="LS_TOKEN=$LIGHTSTEP_ACCESS_TOKEN"
@@ -94,13 +131,17 @@ opentelemetry-operator  default         1               2023-04-26 16:30:59.4789
 
 ### Add Cluster Logging
 
-Logging is not currently baked into the `kube-otel-stack`, so we will need to
+Log scraping is not currently available in the `kube-otel-stack`, so we will need to
 deploy it independently. A `log-collector.yaml` file has been provided to aid in
 this.
 
 1. Run `kubectl apply -f k8s/log-collector.yaml`.
 
 ### Deploy the OpenTelemetry Demo Application
+
+Finally, you'll need to deploy a demo application in order to have something to
+monitor. The OpenTelemetry Demo application is an e-commerce application fully
+instrumented with OpenTelemetry.
 
 1. To deploy the OpenTelemetry Demo application, run the following:
 ```
@@ -140,3 +181,8 @@ OpenTelemetry Java Agent.
 The operator will now inject instrumentation into the pod created by this
 deployment, lighting up the OpenTelemetry instrumentation and adding in
 automatic instrumentation for Kafka.
+
+## Cleaning Up
+
+After you've completed the lab, please run `./scripts/deprovision_ls.sh` and
+`make destroy` to clean up the resources that you created.
