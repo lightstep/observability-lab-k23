@@ -31,7 +31,6 @@ Codespaces to access an IDE and terminal that will be required to complete the l
     - Click the 'Code' button in the top right of the repository.
     - Click the 'Codespaces' tab.
     - Click 'Create Codespace on main'.
-3. Create a new terminal (Cmd+Shift+P, create new terminal)
 
 ### Provisoning a Lightstep Account
 
@@ -53,7 +52,7 @@ DigitalOcean's managed Kubernetes service, but the same concepts apply to any
 K8S cluster -- on AWS, GCP, or Azure there's some extra work to be done around
 identity management and storage that's out of scope for this lab.
 
-1. Run `make init`, `make plan`, and `make apply` to create the cluster. You
+1. Run `make init` then `make apply` to create the cluster. You
    should see something like this after it completes successfully:
 ```
 digitalocean_kubernetes_cluster.cluster: Creation complete after 4m12s [id=a15869de-4795-45cd-b859-2e8d37744099]
