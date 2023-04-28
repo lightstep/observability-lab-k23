@@ -213,4 +213,5 @@ automatic instrumentation for Kafka.
 ## Cleaning Up
 
 After you've completed the lab, please run `./scripts/deprovision_ls.sh` and
-`make destroy` to clean up the resources that you created.
+`make destroy` to clean up the resources that you created. Quit your Codespace
+by opening the command prompt and selecting 'Close Codespace'.
