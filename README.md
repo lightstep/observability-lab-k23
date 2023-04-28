@@ -186,7 +186,7 @@ its Instrumentation Custom Resource Definitions (CRDs).
 2. Create an Instrumentation CRD by running:
 
    ``` shell
-   kubectl apply -f k8s/instrumentation.yaml`
+   kubectl apply -f k8s/instrumentation.yaml
    ```
 
 3. Modify the `k8s/business-metrics.yaml` file as follows:
