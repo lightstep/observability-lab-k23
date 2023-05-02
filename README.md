@@ -5,14 +5,14 @@ cluster for observability with OpenTelemetry!
 
 ## Prerequisites
 
-- A [Lightstep Observability](https://go.lightstep.com/developersignup.html)
+- A [ServiceNow Cloud Observability](https://go.lightstep.com/developersignup.html)
   account.
 - A DigitalOcean Access Token. You can create one in the
   [API & Security](https://cloud.digitalocean.com/account/api) section of your
   DigitalOcean account.
 - A GitHub account.
 
-> __Your instructor will provide you with a Lightstep Account and DigitalOcean
+> __Your instructor will provide you with a Cloud Observability Account and DigitalOcean
 > token for this lab.__
 
 ## Lab Setup
@@ -32,12 +32,12 @@ Codespaces to access an IDE and terminal that will be required to complete the l
     - Click the 'Codespaces' tab.
     - Click 'Create Codespace on main'.
 
-### Provisoning a Lightstep Account
+### Provisoning a Cloud Observability Account
 
-This lab contains automation to provision a Lightstep user account and project
-in a pre-existing organization. To set up your environment, you will need
-several API keys that will be provided to you during the lab - your instructor
-will give you a URL where they can be found.
+This lab contains automation to provision a ServiceNow Cloud Observability
+user account and project in a pre-existing organization. To set up your
+environment, you will need several API keys that will be provided to you
+during the lab - your instructor will give you a URL where they can be found.
 
 1. Go to the provided URL and copy the contents of the GitHub gist.
 2. Copy and paste this content into your Codespace terminal.
@@ -120,7 +120,7 @@ monitoring with sensible defaults, including -
   component metrics endpoints.
 - Deployment of OpenTelemetry collectors for metrics and tracing collection.
 
-1. Create a secret for your Lightstep Access Token:
+1. Create a secret for your Cloud Observability Access Token:
 
    ``` shell
    kubectl create secret generic otel-collector-secret -n default --from-literal="LS_TOKEN=$LIGHTSTEP_ACCESS_TOKEN"

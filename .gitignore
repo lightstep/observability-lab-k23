@@ -34,4 +34,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-scripts/create_user_payload.json
+create_user_payload.json

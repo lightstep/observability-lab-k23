@@ -9,6 +9,7 @@ apply:
 
 .PHONY: destroy
 destroy:
+	helm delete otel-demo
 	terraform -chdir=./terraform destroy -auto-approve
 
 .PHONY: init
