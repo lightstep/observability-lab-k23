@@ -96,7 +96,7 @@ several pre-requisites.
 3. Run the following command to install `opentelemetry-operator`:
 
    ``` shell
-   helm install opentelemetry-operator open-telemetry/opentelemetry-operator -n default
+   helm install opentelemetry-operator open-telemetry/opentelemetry-operator -n default --version 0.27.0
    ```
 
 4. Verify the installation of these components by running `helm list -A`. You
