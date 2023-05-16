@@ -19,3 +19,7 @@ init:
 .PHONY: output
 output:
 	terraform -chdir=./terraform output
+
+.PHONY: dashboard
+dashboard:
+	terraform -chdir=./dashboard init && terraform -chdir=./dashboard apply -auto-approve -var="LIGHTSTEP_ORG=ap-k23-workshop" -var="LIGHTSTEP_API_KEY=$$LIGHTSTEP_API_KEY" -var="LIGHTSTEP_PROJECT=$$LIGHTSTEP_PROJECT"

@@ -48,5 +48,8 @@ done
 EMAIL_BODY_RESPONSE=$(curl -s -H "Mailsac-Key: $MAILSAC_API_KEY" "https://mailsac.com/api/text/${USERNAME}/${RESET_EMAIL_ID}")
 PASSWORD_RESET_LINK=$(echo "$EMAIL_BODY_RESPONSE" | grep -o 'https://app.lightstep.com/account/reset[^ ]*')
 
+# Purge the mailbox
+curl -s -X DELETE -H "Mailsac-Key: $MAILSAC_API_KEY" "https://mailsac.com/api/addresses/${USERNAME}/messages"
+
 # Print the username and password reset link
 echo "Your login is $USERNAME, please follow the link to set your password: $PASSWORD_RESET_LINK"

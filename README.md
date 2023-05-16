@@ -164,6 +164,14 @@ instrumented with OpenTelemetry.
 
 __Your cluster and application is now instrumented for observability!__
 
+## Creating Cloud Observability Dashboards
+
+Now that you have an application, you can use Cloud Observability to create 
+dashboards for that application in order to monitor its SLIs and SLOs.
+
+1. Run `make dashboard` to create a service dashboard, then navigate to the 
+   dashboards tab in Cloud Observability to view it.
+
 ## Using Instrumentation CRDs
 
 The OpenTelemetry operator supports automatic injection of instrumentation via
